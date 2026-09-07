@@ -1,54 +1,51 @@
-# Running Coach Library — 权威跑步知识库（KAI Skill）
+# running-coach-skill — 跑步训练方法论知识库（Kai/Anthropic Skill）
 
-面向 AI 助手（KAI / Claude / 任意支持 Anthropic SKILL.md 的 Agent）的**客观跑步方法论知识库**。
-蒸馏自 7 本经典跑步/体能著作，提供"如何做"的程序化知识（流程、决策规则、反模式、速查表），
-而非原文检索。特征：**纯客观理论，不含任何个人训练档案**——只讲科学方法和通用原则。
+把 7 本经典跑步/体能书的方法论蒸馏成 AI 可套用的**程序化训练知识**（强度分区、周期化、
+跑姿、力量、拉伸、伤痛预防、马拉松方法），供 Kai（支持 SKILL.md 的客户端）当作权威知识库使用。
 
-## 安装
+## 在 Kai 里安装
 
-支持 SKILL.md 的客户端（如 KAI）可从本仓库安装 skill：`owner/repo = ly-ly-666/running-coach-skill`。
-仓库结构符合 Anthropic Skill 标准：根目录 `SKILL.md` 为入口，`references/` 为本体。
+**Skills → Add Skill**，粘贴（技能在 `skills/running-coach-library/` 子目录下，必须带该路径子目录才会把 `references/`、`scripts/` 一起装进沙盒）：
 
-## 覆盖的著作（references/ 七册）
+```
+ly-ly-666/running-coach-skill/skills/running-coach-library
+```
 
-| 文件 | 书名 | 主题 | 精度 |
-|------|------|------|------|
-| `daniels.md` | 丹尼尔斯经典跑步训练法 | VDOT、E/M/T/I/R 强度体系、训练计划分级、马拉松 Q 计划 | 🔴 全文提取 |
-| `periodization.md` | 周期训练理论与方法（邦帕） | 年/中/微周期、阶段划分、3:1 减负荷、能力依序发展 | 🔴 全文提取 |
-| `injuryfree.md` | 无伤跑法（郑家轩/戴剑松） | 无伤跑姿、跑者力量阶梯、伤痛治本、马拉松参赛/恢复 | 🔴 全文提取 |
-| `pose.md` | 姿势跑法（罗曼诺夫） | 重力驱动、Pose→Fall→Pull、跑姿纠正、矫正训练动作 | 🔴 全文提取 |
-| `stretching.md` | 拉伸运动系统训练（科科宁） | 动态/静态/PNF、静态分级、跑者重点部位、定制计划 | 🔴 全文提取 |
-| `hansons.md` | 汉森马拉松训练法 | 累积疲劳模型、3 quality day、长限≤26km、减量 | 🟡 扫描版·方法稿 |
-| `nsca.md` | NSCA 力量训练指南 | 目标→负荷参数表、训练课编排、周期化、2-for-2 进阶 | 🟡 扫描版·方法稿 |
+或完整 URL：
 
-## 数据来源与精度声明（重要）
+```
+https://github.com/ly-ly-666/running-coach-skill/tree/main/skills/running-coach-library
+```
 
-- **5 本（daniels/periodization/injuryfree/pose/stretching）**：原始 PDF 含文本层，已用
-  pdfplumber 从原书全文提取为结构章节，再蒸馏为程序化知识，文末均附「来源映射
-  （section # → 本节）」可回溯查证。**数据经过原始 PDF 核对**。
-- **2 本（hansons/nsca）**：原始 PDF 为扫描版（无文本层、无法自动提取），两稿依据该训练法
-  **公开、公认的方法体系**编写，文首已明确标注这一限制。如需逐字引用须先对扫描版 OCR。
-- 无论来源，本 skill 输出的是"如何做"的方法论（可执行决策），不是原文逐字；需要原文时
-  用来源映射回到原书。
+装好后，在对话里用斜杠命令触发（id 来自 SKILL.md frontmatter 的 `name`）：
 
-## 使用方式
+```
+/running-coach-library 给一个针对 10 公里比赛的中周期训练安排
+```
 
-1. 读 `SKILL.md` 总表，判断问题属于哪本书覆盖范围。
-2. 打开对应 `references/<book>.md`，取用「核心流程 / 决策规则 / 反模式 / 速查表」。
-3. 需要精确定位/跨书检索时，用检索脚本：
-   `python scripts/search_knowledge.py --base references --query "乳酸门槛 训练" --top 5`
-4. 把书中方法论翻译成中文、落到具体可执行的计划/动作/参数后回复用户。
+> 提示：Kai 安装技能走**未认证 GitHub API**（不带 token），因此本仓库为 **public**。
+> 需在**已装好 Linux 沙盒的 Android 端**操作。
 
-## 跨书共识（高频适用原则）
+## 仓库结构
 
-- **渐进超负荷**：跑量/强度/力量增加，单周增幅 ≤10%，先时长后强度。
-- **特异性**：训练模拟目标比赛的强度与姿态。
-- **个体化**：以当前能力（VDOT / 最近成绩 / 周跑量）为起点，不套模板。
-- **80/20 法则**：轻松跑占主体，高强度占总训练少部分。
-- **恢复即训练**：休息、睡眠、拉伸、力量是计划的正式组成部分。
+```
+skills/running-coach-library/
+├── SKILL.md               # 技能入口（frontmatter: name/description）
+├── README.md              # 技能说明
+├── references/            # 7 本书蒸馏知识（按需加载）
+│   ├── daniels.md         #   丹尼尔斯 VDOT + E/M/T/I/R 强度体系
+│   ├── periodization.md   #   邦帕周期训练
+│   ├── injuryfree.md      #   无伤跑法
+│   ├── pose.md            #   姿势跑法
+│   ├── stretching.md      #   拉伸系统训练（动态/静态/PNF）
+│   ├── nsca.md            #   NSCA 力量训练指南（OCR 提取）
+│   └── hansons.md         #   汉森马拉松训练法（OCR 提取）
+└── scripts/
+    └── search_knowledge.py # 中英文混合确定性检索
+```
 
-## 局限
+## 数据源与精度
 
-- 这是**通用科学方法论**，不含特定用户的个人先验信息（如需结合个人数据需另行输入）。
-- hun 有表现提升类参考数据为英文体系，均按中文语境转述，配速/心率单位以书中标注为准。
-- cil consulting 医学类内容（伤痛处理）仅作科普参考，不替代专业医疗诊断。
+- **5 本有文本层**（daniels/periodization/injuryfree/pose/stretching）：pdfplumber 全书提取后蒸馏，附「来源映射」可回溯。
+- **2 本扫描版**（hansons/nsca）：tesseract(chi_sim) **逐页 OCR** 后整理；关键配速/距离/负荷数字已逐处人工核对，OCR 可能有少量错字。
+- 本库提供"如何做"的方法论（流程/决策规则/反模式/速查表），非原文检索；需精准定位用 `scripts/search_knowledge.py`。
